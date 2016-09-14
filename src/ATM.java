@@ -19,6 +19,7 @@ public class ATM {
 
 
         Customer customer = new Customer(name, 100);
+
         while (keepRunning) {
             if (name.equals("")) {
                 throw new Exception("Invalid name");
@@ -32,12 +33,16 @@ public class ATM {
             String selection = scanner.nextLine();
             if (selection.equals("1")) {
                 System.out.println("Your current balance is: $" + customer.getBalance());
-            } else if (selection.equals("2")) {
-                System.out.println("To withdraw funds, please enter the amount you would like to witdraw:");
+            }
+
+            else if (selection.equals("2")) {
+                System.out.println("To withdraw funds, please enter the amount you would like to withdraw:");
                 String withdrawAsString = scanner.nextLine();
                 System.out.println("Withdrawal Amount: $" + withdrawAsString);
+
                 //long number = Long.parseLong(numberAsString); - Convert amount as string to a long
                 long amount = Long.parseLong(withdrawAsString);
+
                 if (amount > customer.getBalance()) {
                     throw new Exception("You have insufficient funds for this withdrawal");
                 }
@@ -48,6 +53,7 @@ public class ATM {
                 customer.setBalance(newBalance);
 
                 System.out.println("Would you like to make another transaction? y or n");
+
             } else if (selection.equals("3")) {
                 System.out.println("You have cancelled the transaction and no changes have been made to your account");
                 System.out.println("Thank you and please come again...");
