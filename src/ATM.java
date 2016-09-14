@@ -46,12 +46,13 @@ public class ATM {
                 if (amount > customer.getBalance()) {
                     throw new Exception("You have insufficient funds for this withdrawal");
                 }
-                long newBalance = customer.getBalance() - amount;
-                System.out.println("Please take your money");
-                System.out.println("Your new balance is: $" + newBalance);
+                else {
+                    long newBalance = customer.getBalance() - amount;
+                    System.out.println("Please take your money");
+                    System.out.println("Your new balance is: $" + newBalance);
 
-                customer.setBalance(newBalance);
-
+                    customer.setBalance(newBalance);
+                }
                 System.out.println("Would you like to make another transaction? y or n");
 
             } else if (selection.equals("3")) {
