@@ -7,6 +7,27 @@ import java.util.Scanner;
  * Created by john.tumminelli on 9/14/16.
  */
 public class ATM {
+    static void makeWithdrawal(Scanner scanner, Customer customer) throws Exception {
+        System.out.println("To withdraw funds, please enter the amount you would like to withdraw:");
+        String withdrawAsString = scanner.nextLine();
+        System.out.println("Withdrawal Amount: $" + withdrawAsString);
+
+        //long number = Long.parseLong(numberAsString); - Convert amount as string to a long
+        long amount = Long.parseLong(withdrawAsString);
+
+        if (amount > customer.getBalance()) {
+            throw new Exception("You have insufficient funds for this withdrawal");
+        }
+        else {
+            long newBalance = customer.getBalance() - amount;
+            System.out.println("Please take your money");
+            System.out.println("Your new balance is: $" + newBalance);
+
+            customer.setBalance(newBalance);
+        }
+        System.out.println("Would you like to make another transaction? y or n");
+
+    }
     public static void main(String[] args) throws Exception {
         System.out.println("Welcome to Iron Yard ATM!!");
         System.out.println("Please enter your name to begin:");
@@ -36,26 +57,10 @@ public class ATM {
             }
 
             else if (selection.equals("2")) {
-                System.out.println("To withdraw funds, please enter the amount you would like to withdraw:");
-                String withdrawAsString = scanner.nextLine();
-                System.out.println("Withdrawal Amount: $" + withdrawAsString);
+                makeWithdrawal(scanner, customer);
+            }
 
-                //long number = Long.parseLong(numberAsString); - Convert amount as string to a long
-                long amount = Long.parseLong(withdrawAsString);
-
-                if (amount > customer.getBalance()) {
-                    throw new Exception("You have insufficient funds for this withdrawal");
-                }
-                else {
-                    long newBalance = customer.getBalance() - amount;
-                    System.out.println("Please take your money");
-                    System.out.println("Your new balance is: $" + newBalance);
-
-                    customer.setBalance(newBalance);
-                }
-                System.out.println("Would you like to make another transaction? y or n");
-
-            } else if (selection.equals("3")) {
+            else if (selection.equals("3")) {
                 System.out.println("You have cancelled the transaction and no changes have been made to your account");
                 System.out.println("Thank you and please come again...");
                 keepRunning = false;
@@ -63,5 +68,7 @@ public class ATM {
         }
 
 
+
     }
+
 }
