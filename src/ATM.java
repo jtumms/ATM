@@ -44,7 +44,7 @@ public class ATM {
         validUsers.put("bob", new Customer("bob", 2000, "bob123", false));
         validUsers.put("fred", new Customer("fred", 1000, "fred123", false));
         validUsers.put("barney", new Customer("barney", 1500, "barney123", false));
-        validUsers.put("itchy", new Customer("itchy", 800, "itchy123", false));
+        validUsers.put("itchy", new Customer("itchy", 800, "itchy123", true));
         validUsers.put("scratchy", new Customer("scratchy", 2300, "scratchy123", true));
 
 
@@ -131,8 +131,9 @@ public class ATM {
                         selection = scanner.nextLine();
                         if (selection.equals("1")) {
                             validUsers.remove(name);
-                            customer.balance = 0;
+//                            customer.balance = 0;
                             System.out.println("Account for Username: " + name + " is deleted.");
+                            loopMainMenu = false;
                         }
                         if (selection.equals("2")) {
                             for (String out : validUsers.keySet()) {
