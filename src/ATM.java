@@ -1,4 +1,5 @@
 import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
+import com.sun.tools.doclets.formats.html.markup.StringContent;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -9,7 +10,15 @@ import java.util.Scanner;
 
 public class ATM {
 
-    static void makeWithdrawal(Scanner scanner, Customer customer) throws Exception {
+    private static void pressAnyKeyToContinue() throws Exception
+    {
+        System.out.println("Press Enter to continue...");
+        {
+            System.in.read();
+        }
+    }
+
+    private static void makeWithdrawal(Scanner scanner, Customer customer) throws Exception {
 
         System.out.println("To withdraw funds, please enter the amount you would like to withdraw:");
         String withdrawAsString = scanner.nextLine();
@@ -32,11 +41,11 @@ public class ATM {
 
         HashMap<String, Customer> validUsers = new HashMap<>();
 
-        validUsers.put("bob", new Customer("bob", 2000, "bob123"));
-        validUsers.put("fred", new Customer("fred", 1000, "fred123"));
-        validUsers.put("barney", new Customer("barney", 1500, "barney123"));
-        validUsers.put("itchy", new Customer("itchy", 800, "itchy123"));
-        validUsers.put("scratchy", new Customer("scratchy", 230, "scratchy123"));
+        validUsers.put("bob", new Customer("bob", 2000, "bob123", false));
+        validUsers.put("fred", new Customer("fred", 1000, "fred123", false));
+        validUsers.put("barney", new Customer("barney", 1500, "barney123", false));
+        validUsers.put("itchy", new Customer("itchy", 800, "itchy123", false));
+        validUsers.put("scratchy", new Customer("scratchy", 2300, "scratchy123", true));
 
 
 
@@ -79,7 +88,9 @@ public class ATM {
                     System.out.println("How much to you want to deposit?");
                     String deposit = scanner.nextLine();
                     long depositLong = Long.parseLong(deposit);
-                    Customer addCustomer = new Customer(addUname, depositLong, addPasswd);
+                    //default all users to non administrator
+
+                    Customer addCustomer = new Customer(addUname, depositLong, addPasswd, false);
                     validUsers.put(name, addCustomer);
 
 
@@ -97,8 +108,7 @@ public class ATM {
                 System.out.println("1 - Check your balance");
                 System.out.println("2 - Withdraw funds");
                 System.out.println("3 - Cancel and Logout");
-                System.out.println("4 - Close and delete your account");
-                System.out.println("5 - Admin Options");
+                System.out.println("4 - Admin Options");
 
                 String selection = scanner.nextLine();
                 if (selection.equals("1")) {
@@ -114,12 +124,28 @@ public class ATM {
                     loopMainMenu = false;
                 }
                 else if (selection.equals("4")) {
-                    customer.balance = 0;
-                    System.out.println("Are you sure you want to close and delete your account? Y/N");
-                    String deleteConfirm = scanner.nextLine();
-                    if (!deleteConfirm.equalsIgnoreCase("Y")) {
-
+                    if (validUsers.get(name).isAdmin) {
+                        System.out.println("Please select from these menu choices:");
+                        System.out.println("1 - Close out your account");
+                        System.out.println("2 - Print all accounts and balances to the console");
+                        selection = scanner.nextLine();
+                        if (selection.equals("1")) {
+                            validUsers.remove(name);
+                            customer.balance = 0;
+                            System.out.println("Account for Username: " + name + " is deleted.");
+                        }
+                        if (selection.equals("2")) {
+                            for (String out : validUsers.keySet()) {
+                                long balanceOut = validUsers.get(out).balance;
+                                System.out.println(out + " " + balanceOut);
+                            }
+                        }
                     }
+                    else {
+                        System.out.println(customer.name.toUpperCase() + " does not have admin privileges. Press Enter to continue.");
+                        pressAnyKeyToContinue();
+                    }
+
 
                 }
             }

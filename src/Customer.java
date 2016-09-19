@@ -7,11 +7,14 @@ public class Customer {
     String name;
     long balance;
     String password;
+    boolean isAdmin;
 
-    public Customer(String newName, long newBalance, String newPassword) {
+    public Customer(String newName, long newBalance, String newPassword, boolean newIsAdmin) {
         name = newName;
         balance = newBalance;
         password = newPassword;
+        isAdmin = newIsAdmin;
+
     }
     long getBalance() {
         return balance;
@@ -19,9 +22,6 @@ public class Customer {
     void setBalance(long newBalance) {
         balance = newBalance;
     }
-    void createUser() {
 
-
-    }
 
 }
